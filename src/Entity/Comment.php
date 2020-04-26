@@ -45,7 +45,7 @@ class Comment
     private $conference;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)roo
      */
     private $photoFilename;
 
@@ -126,11 +126,8 @@ class Comment
         return $this;
     }
 
-
     public function __toString(): ?string
     {
         return $this->getEmail();
     }
-
-
 }
