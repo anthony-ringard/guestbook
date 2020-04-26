@@ -15,26 +15,35 @@ use Twig\Environment;
 
 class ConferenceController extends AbstractController
 {
+    private Environment $twig;
+    private ConferenceRepository $conferenceRepository;
+
+    public function __construct(Environment $twig, ConferenceRepository $conferenceRepository)
+    {
+        $this->twig = $twig;
+        $this->conferenceRepository = $conferenceRepository;
+    }
+
     /**
      * @Route("/", name="homepage")
      */
-    public function __invoke(Environment $twig, ConferenceRepository $conferenceRepository)
+    public function __invoke()
     {
-        return new Response($twig->render(
+        return new Response($this->twig->render(
             'conference/index.html.twig',
-            ['conferences' => $conferenceRepository->findAll()]
+            ['conferences' => $this->conferenceRepository->findAll()]
         ));
     }
 
     /**
      * @Route("/conference/{id}", name="conference")
      */
-    public function show(Request $request, Environment $twig, Conference $conference, CommentRepository $commentRepository)
+    public function show(Request $request, Conference $conference, CommentRepository $commentRepository)
     {
         $offset = max(0, $request->query->getInt('offset', 0));
         $paginator = $commentRepository->getCommentPaginator($conference, $offset);
 
-        return new Response($twig->render(
+        return new Response($this->twig->render(
             'conference/show.html.twig',
             [
                 'conference' => $conference,
