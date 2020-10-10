@@ -22,7 +22,7 @@ services:
     ports: [1025, 1080]
 
   blackfire:
-    image: blackfire/blackfireComment
+    image: blackfire/blackfire
     env_file: .env.local
     ports: [8707]
 
