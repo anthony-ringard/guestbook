@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App;
 
 use App\Entity\Comment;
-use http\Exception\RuntimeException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class SpamChecker
@@ -37,7 +36,6 @@ class SpamChecker
                ]),
         ]);
 
-        
         $headers = $response->getHeaders();
 
         if ('discard' === ($headers['x-akismet-pro-tip'][0] ?? '')) {
@@ -47,7 +45,7 @@ class SpamChecker
         $content = $response->getContent();
 
         if (isset($headers['x-akismet-debug-help'][0])) {
-            throw new RuntimeException(sprintf('Unable to check for spam: %s (%s).', $content, $headers['x-akismet-debug-help'][0]));
+            throw new \RuntimeException(sprintf('Unable to check for spam: %s (%s).', $content, $headers['x-akismet-debug-help'][0]));
         }
 
         return 'true' === $content ? 1 : 0;

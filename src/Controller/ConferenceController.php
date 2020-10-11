@@ -28,8 +28,7 @@ class ConferenceController extends AbstractController
         Environment $twig,
         ConferenceRepository $conferenceRepository,
         EntityManagerInterface $entityManager
-    )
-    {
+    ) {
         $this->twig = $twig;
         $this->conferenceRepository = $conferenceRepository;
         $this->entityManager = $entityManager;
@@ -55,8 +54,7 @@ class ConferenceController extends AbstractController
         CommentRepository $commentRepository,
         SpamChecker $spamChecker,
         string $photoDir
-    )
-    {
+    ) {
         $comment = new Comment();
         $form = $this->createForm(CommentFormType::class, $comment);
 
@@ -80,16 +78,14 @@ class ConferenceController extends AbstractController
 
             $context = [
              'user_ip' => $request->getClientIp(),
-             'user_agent'=>$request->headers->get('user-agent'),
+             'user_agent' => $request->headers->get('user-agent'),
              'referrer' => $request->headers->get('referer'),
              'permalink' => $request->getUri(),
             ];
 
-
-            if(2 === $spamChecker->getSpamScore($comment, $context)) {
+            if (2 === $spamChecker->getSpamScore($comment, $context)) {
                 throw new \RuntimeException('Blatant spam, go away !');
             }
-
 
             $this->entityManager->flush();
 
