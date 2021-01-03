@@ -44,8 +44,16 @@ class AppFixtures extends Fixture
             ->setConference($amsterdam)
             ->setAuthor('Anthony')
             ->setEmail('ari@yopmail.com')
-            ->setText('Ho Yeah baby !');
+            ->setText('Ho Yeah baby !')
+            ->setState('published');
         $manager->persist($comment1);
+
+        $comment2 = (new Comment())
+            ->setConference($paris)
+            ->setAuthor('Anthony')
+            ->setEmail('ari@yopmail.com')
+            ->setText('Ho Yeah baby !');
+        $manager->persist($comment2);
 
         $manager->flush();
     }
